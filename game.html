@@ -1,0 +1,1158 @@
+<html>
+<head>
+    <title> </title>
+    <style>
+        #txt{
+            width:200px;
+            height:50px;
+            background-color: rgba(0, 0, 0, 0.14);
+            border:solid;
+            border-radius: 10px;
+            color: #eeb73a;
+            font-family: BrowalliaUPC;
+            text-align: center;
+            font-size:32px;
+
+        }
+
+        input{
+
+            color: #fff;
+            font-family: BrowalliaUPC;
+            font-size: xx-large;
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.65);
+            border-color: #eeb73a;
+        }
+        body{
+
+
+           background: url("v1.mp4") no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+
+        }
+        #table{
+
+            position: absolute;
+            top:100px;
+            right:680px;
+            border:solid;
+            border-width: thick;
+            border-radius: 10px;
+            border-color: #0a234b;
+            background-color: rgba(0, 0, 0, 0.86);
+        }
+
+
+
+        input:hover{
+            cursor: pointer;
+            background-color: aquamarine;
+            color: #eeb73a;
+            border-color: aquamarine;
+        }
+        #newWord{
+            border-color: #eeb73a;
+        }
+        #newWord:hover{
+            background-color: rgb(238, 183, 58);
+            color: #a0e5e1
+
+        }
+
+        #score{
+            font-size: 80px;
+            font-family: BrowalliaUPC;
+            font-weight: bolder;
+            color: rgba(160, 229, 225, 0.8);
+
+        }
+        #scoretable{
+            position: absolute;
+            top:100px;
+            right:350px;
+            width:300px;
+            height:270px;
+
+            background-color: rgba(0, 0, 0, 0.86);
+            border:solid;
+            border-width: thick;
+            border-radius:10px;
+            border-color:#0a234b;
+        }
+          #resulttable{
+            border:solid;
+            border-width: thick;
+            border-color: #0a234b;
+            border-radius: 10px;
+            position: absolute;
+            top:380px;
+            right:350px;
+            background-color: rgba(0, 0, 0, 0.86);
+            width:300px;
+            height:150px;
+            font-size: 80px;
+            font-weight: bolder;
+            color: rgba(238, 183, 58, 0.8);
+            font-family: BrowalliaUPC;
+
+        }
+        video#bgvid {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -100;
+            -ms-transform: translateX(-50%) translateY(-50%);
+            -moz-transform: translateX(-50%) translateY(-50%);
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%);
+            background: url(v1.mp4) no-repeat;
+            background-size: cover;
+        }
+
+
+    </style>
+
+    <script>
+
+
+        var arr=["Jordan","Syria","Palestine","Lebanon","Iraq","Oman","Kuwait","Yemen","Qatar","Egypt","Algeria","Tunisia","Sudan","Morocco","Zimbabwe",
+            "Mauritania","Bahrain","Libya","Comoros","Djibouti","Turkey","Greece","Spain","Italy","Cyprus","Kurdistan","Portugal","France","England","Scotland","Ireland","Iceland","Germany","Netherlands",
+            "Norway","India","SriLanka","Afghanistan","Pakistan","Nepal","Philippine","China","Japan","Australia","America","Indonesia","Mongolia","Thailand","Russia","Vietnam","Singapore",
+            "Malaysia","Taiwan","Chile","Argentina","Brazil","Cuba","Cameroon","Mexico","Bangladesh","Armenia","Nigeria","Ethiopia","Ghana","Madagascar","Senegal","Colombia",
+            "Peru","Venezuela","Ecuador","Uruguay","Canada","Greenland","Jamaica","Haiti","Bahamas","Poland","Switzerland","Ukraine"];
+
+        var word;
+        var wordIndex;
+        var score=0;
+        var d;
+        var j;
+        var letter="";
+        var id=["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+
+
+        function hiddenWord() {
+
+            score=0;
+            for (j = 0; j < id.length; j++){
+                d=document.getElementById(id[j]);
+                d.disabled=false;}
+
+            document.getElementById("result").innerHTML="";
+            score=0;
+            document.getElementById("score").innerHTML="SCORE <br>"+score;
+            wordIndex=parseInt(Math.random()*arr.length);
+            word =arr[wordIndex].toLowerCase();
+            document.getElementById("txt").innerHTML = "";
+            for (var i = 0; i < word.length; i++) {
+                document.getElementById("txt").innerHTML += "x";
+            }
+            document.getElementById("pic").innerHTML="<img src="+wordIndex+".jpg width='200' height='100' style='border-radius:10px;' >";
+        }
+
+
+
+        function A(){
+            letter="a";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[0]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+
+                    }
+                    d.disabled=true;
+        }
+        }
+        else if (y == -1 && score != 0) {
+            score -= 10;
+            document.getElementById("score").innerHTML="SCORE <br>"+score;
+            d.disabled=true;
+        }
+        if(score==0) {
+            document.getElementById("result").innerHTML = "LOSER";
+            for (j = 0; j < id.length; j++){
+                d=document.getElementById(id[j]);
+                d.disabled=true;
+            }
+
+        }
+
+        document.getElementById("txt").innerHTML = x;
+        if(x.toLowerCase()==word){
+            document.getElementById("result").innerHTML="YOU WIN";
+            for (j = 0; j < id.length; j++){
+                d=document.getElementById(id[j]);
+                d.disabled=true;
+            }}}
+
+        function B(){
+            letter="b";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[1]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;}
+            }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;
+            }}
+        }
+        function C(){
+            letter="c";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[2]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;}
+
+            }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;
+            }}
+        }
+        function D(){
+            letter="d";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[3]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;}
+
+            }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;
+            }}
+        }
+        function E(){
+            letter="e";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[4]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;}
+
+            }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;
+            }}
+        }
+        function F(){
+            letter="f";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[5]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;}
+
+            }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;
+            }}
+        }
+        function G(){
+            letter="g";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[6]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;          } }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;
+        }}}
+        function H(){
+            letter="h";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[7]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;}
+            }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;
+
+        }}}
+        function I(){
+            letter="i";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[8]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;}
+            }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++) {
+                    d = document.getElementById(id[j]);
+                    d.disabled = true;
+                } }
+        }
+        function J(){
+            letter="j";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[9]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;}
+            }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++) {
+                    d = document.getElementById(id[j]);
+                    d.disabled = true;
+                }
+        }}
+        function K(){
+            letter="k";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[10]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;}
+            }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++) {
+                    d = document.getElementById(id[j]);
+                    d.disabled = true;
+                    }
+            }
+        }
+
+        function L(){
+            letter="l";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(id[11]);
+            d=document.getElementById(letter);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;      } }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++) {
+                    d = document.getElementById(id[j]);
+                    d.disabled = true;
+                }
+
+        }}
+        function M(){
+            letter="m";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[12]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;         }  }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;}
+            }
+        }
+        function N(){
+            letter="n";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[13]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;     }}
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;
+
+        }}}
+        function O(){
+            letter="o";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[14]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;}
+            }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;
+            }
+        }}
+        function P(){
+            letter="p";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[15]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true; }}
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;
+            }
+        }}
+        function Q(){
+            letter="q";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[16]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;         } }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;
+            }
+        }}
+        function R(){
+            letter="r";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(id[17]);
+            var j;
+            d=document.getElementById(letter);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;
+                }            }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;
+                }            }
+        }
+        function S(){
+            letter="s";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            var j;
+            d=document.getElementById(id[18]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;
+                }             }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;
+                }             }
+        }
+        function T(){
+            letter="t";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+
+            d=document.getElementById(id[19]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;}
+            }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;
+            }
+        }}
+        function U(){
+            letter="u";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[20]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;}
+            }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;
+            }
+        }}
+        function V(){
+            letter="v";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[21]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;}
+            }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;            }
+        }}
+        function W(){
+            letter="w";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[22]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;          }  }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;            }
+        }}
+        function X(){
+            letter="x";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[23]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;           } }
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;            }}
+        }
+        function Y(){
+            letter="y";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d=document.getElementById(id[24]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score+=10;
+                        document.getElementById("score").innerHTML="SCORE <br>"+score;
+                    }
+                    d.disabled=true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML="SCORE <br>"+score;
+                d.disabled=true;
+            }
+            if(score==0){
+                document.getElementById("result").innerHTML="LOSER";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;            }}
+
+            document.getElementById("txt").innerHTML = x;
+            if(x.toLowerCase()==word){
+                document.getElementById("result").innerHTML="YOU WIN";
+                for (j = 0; j < id.length; j++){
+                    d=document.getElementById(id[j]);
+                    d.disabled=true;            }
+        }}
+        function Z() {
+            letter = "z";
+            var x = document.getElementById("txt").innerHTML; // the hidden word
+            var y = word.search(letter);
+            d = document.getElementById(id[25]);
+            if (y != -1) {
+                for (var i = y; i < word.length; i++) {
+                    if (letter == word.slice(i, i + 1)) {
+                        x = x.slice(0, i) + letter.toUpperCase() + x.slice(i + 1, x.length);
+                        score += 10;
+                        document.getElementById("score").innerHTML = "SCORE <br>" + score;
+                    }
+                    d.disabled = true;
+                }
+            }
+            else if (y == -1 && score != 0) {
+                score -= 10;
+                document.getElementById("score").innerHTML = "SCORE <br>" + score;
+                d.disabled = true;
+            }
+            if (score == 0) {
+                document.getElementById("result").innerHTML = "LOSER";
+                for (j = 0; j < id.length; j++) {
+                    d = document.getElementById(id[j]);
+                    d.disabled = true;}
+                }
+
+                document.getElementById("txt").innerHTML = x;
+                if (x.toLowerCase() == word) {
+                    document.getElementById("result").innerHTML = "YOU WIN";
+                    for (j = 0; j < id.length; j++) {
+                        d = document.getElementById(id[j]);
+                        d.disabled = true;
+                    }}}
+
+
+
+    </script>
+</head>
+<body>
+<video playsinline autoplay muted loop poster="v1.mp4" id="bgvid">
+    <source src="v1.mp4" type="video/mp4">
+</video>
+
+<form>
+    <table id="table" align="center">
+        <tr><td>
+    <table align="center">
+        <tr>
+            <td>
+                <div id="pic" style="border:solid;border-color: #eeb73a; border-radius: 10px; font-size:40px; font-family: BrowalliaUPC; font-weight: bolder ;color:rgb(255,255,255); width:200px; height:100px;" align="center"> Click on <br> NEW WORD </div>
+            </td>
+        </tr>
+    </table>
+        <table align="center">
+        <tr>
+            <td>
+                <h1 id="txt"></h1>
+            </td>
+        </tr>
+    </table>
+    <table align="center">
+        <tr>
+            <td>
+                <input type="button" value="NEW WORD" onclick="hiddenWord()" id="newWord">
+            </td>
+        </tr>
+    </table>
+
+
+    <table align="center">
+        <tr>
+            <td colspan="10"> <hr> </td>
+        </tr>
+        <tr>
+        <td><input type="button" width="2" height="2" value="Q" onclick="Q()" id="q"></td>
+        <td><input type="button" width="2" height="2" value="W" onclick="W()" id="w"></td>
+        <td><input type="button" width="2" height="2" value="E" onclick="E()" id="e"></td>
+        <td><input type="button" width="2" height="2" value="R" onclick="R()" id="r"></td>
+        <td><input type="button" width="2" height="2" value="T" onclick="T()" id="t"></td>
+        <td><input type="button" width="2" height="2" value="Y" onclick="Y()" id="y"></td>
+        <td><input type="button" width="2" height="2" value="U" onclick="U()" id="u"></td>
+        <td><input type="button" width="2" height="2" value="I" onclick="I()" id="i"></td>
+        <td><input type="button" width="2" height="2" value="O" onclick="O()" id="o"></td>
+        <td><input type="button" width="2" height="2" value="P" onclick="P()" id="p"></td>
+         </tr>
+    </table>
+            <table align="center">
+        <tr>
+            <td><input type="button" width="2" height="2" value="A" onclick="A()" id="a" accesskey="A"></td>
+            <td><input type="button" width="2" height="2" value="S" onclick="S()" id="s"></td>
+            <td><input type="button" width="2" height="2" value="D" onclick="D()" id="d"></td>
+            <td><input type="button" width="2" height="2" value="F" onclick="F()" id="f"></td>
+            <td><input type="button" width="2" height="2" value="G" onclick="G()" id="g"></td>
+            <td><input type="button" width="2" height="2" value="H" onclick="H()" id="h"></td>
+            <td><input type="button" width="2" height="2" value="J" onclick="J()" id="j"></td>
+            <td><input type="button" width="2" height="2" value="K" onclick="K()" id="k"></td>
+            <td><input type="button" width="2" height="2" value="L" onclick="L()" id="l"></td>
+        </tr>
+        </table>
+    <table align="center">
+        <tr>
+            <td><input type="button" width="2" height="2" value="Z" onclick="Z()" id="z"></td>
+            <td><input type="button" width="2" height="2" value="X" onclick="X()" id="x"></td>
+            <td><input type="button" width="2" height="2" value="C" onclick="C()" id="c"></td>
+            <td><input type="button" width="2" height="2" value="V" onclick="V()" id="v"></td>
+            <td><input type="button" width="2" height="2" value="B" onclick="B()" id="b"></td>
+            <td><input type="button" width="2" height="2" value="N" onclick="N()" id="n"></td>
+            <td><input type="button" width="2" height="2" value="M" onclick="M()" id="m"></td>
+        </tr>
+    </table>
+    </table>
+    <table align="center" id="scoretable"><tr><td>
+        <div align="center" id="score">SCORE <br></div></td></tr>
+    </table>
+    <table id="resultTable">
+        <tr>
+            <td> <div align="center" id="result"></div></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
